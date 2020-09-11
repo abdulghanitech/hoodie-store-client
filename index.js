@@ -7,7 +7,7 @@ var assign = require('lodash/assign')
 var internals = Store.internals = {}
 internals.handleChanges = require('./lib/helpers/handle-changes')
 
-function Store (dbName, options) {
+function Store(dbName, options) {
   if (!(this instanceof Store)) return new Store(dbName, options)
   if (typeof dbName !== 'string') throw new Error('Must be a valid string.')
 
@@ -34,13 +34,14 @@ function Store (dbName, options) {
     PouchDB: options.PouchDB,
     emitter: emitter,
     validate: options.validate,
-    get remote () {
+    syncOptions: options.syncOptions,
+    get remote() {
       return options.remote
     }
   }
 
   var api = {
-    get db () {
+    get db() {
       return state.db
     },
     isPersistent: require('./lib/is-persistent').bind(null, state),
@@ -74,7 +75,7 @@ function Store (dbName, options) {
 }
 
 Store.defaults = function (defaultOpts) {
-  function CustomStore (dbName, options) {
+  function CustomStore(dbName, options) {
     if (typeof dbName !== 'string') throw new Error('Must be a valid string.')
     options = options || {}
 
